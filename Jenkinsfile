@@ -33,8 +33,12 @@ pipeline {
 
     post {
         always {
-            sh "docker rmi public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG}"
-            sh "if [[ ! -z `docker images -f 'dangling=true' -q` ]]; then docker rmi `docker images -f 'dangling=true' -q`; fi"
+            sh """
+              aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/m4n3o5v2
+              docker rmi public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG}
+              if [[ ! -z `docker images -f 'dangling=true' -q` ]]; then docker rmi `docker images -f 'dangling=true' -q`; fi
+            """
+            
         }
     }
 }
