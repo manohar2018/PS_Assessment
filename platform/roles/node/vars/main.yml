@@ -1,4 +1,0 @@
----
-# vars file for node
-NODEJS_VERSION: "8"
-ansible_distribution_release: "xenial" #trusty
