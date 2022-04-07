@@ -18,11 +18,7 @@ pipeline {
     stages {
         stage("Build Docker Image") {
             steps {
-                dir('Docker_scripts') {
-                    withCredentials([usernamePassword(credentialsId: 'svc-longrange-global-nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh "docker build -t public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG} --build-arg nexus_user=${USERNAME} --build-arg nexus_pass=${PASSWORD} --target ${params.IMAGE} " + getContextPath("${params.IMAGE}")
-                    }
-                }
+                sh "docker build -t public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG} ." 
             }
         }
         stage("Publish Docker Image") {
