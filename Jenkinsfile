@@ -26,7 +26,11 @@ pipeline {
                 expression { return params.PUBLISH }
             }
             steps {
-                sh "docker push public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG}"
+
+                sh """
+                 docker login --username AWS --password `aws ecr get-login-password --region us-east-1` 714972241463.dkr.ecr.us-east-1.amazonaws.com
+                 docker push public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG}
+                """
             }
         }
     }
@@ -34,9 +38,7 @@ pipeline {
     post {
         always {
             sh """#!/bin/bash -xe
-              TOKEN=`aws ecr get-login --region us-east-1`
-              aws ecr --region us-east-1 | docker login -u AWS -p `aws ecr get-login --no-include-email --region us-east-1` public.ecr.aws/m4n3o5v2
-              #docker login -u AWS ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/m4n3o5v2
+              
               docker rmi public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG}
               if [[ ! -z `docker images -f 'dangling=true' -q` ]]; then docker rmi `docker images -f 'dangling=true' -q`; fi
             """
