@@ -35,7 +35,7 @@ pipeline {
         always {
             sh """#!/bin/bash -xe
               TOKEN=`aws ecr get-login --region`
-              aws ecr --region us-east-1 | docker login -u AWS -p ${TOKEN} public.ecr.aws/m4n3o5v2
+              aws ecr --region us-east-1 | docker login -u AWS -p `aws ecr get-login --region` public.ecr.aws/m4n3o5v2
               #docker login -u AWS ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/m4n3o5v2
               docker rmi public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG}
               if [[ ! -z `docker images -f 'dangling=true' -q` ]]; then docker rmi `docker images -f 'dangling=true' -q`; fi
