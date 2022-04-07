@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage("Build Docker Image") {
             steps {
-                sh "docker build -t 714972241463.dkr.ecr.us-east-1.amazonaws.com/demo:${params.IMAGE_TAG} ." 
+                sh "docker build -t public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG} ." 
             }
         }
         stage("Publish Docker Image") {
@@ -28,9 +28,9 @@ pipeline {
             steps {
 
                 sh """
-                 docker login --username AWS --password `aws ecr get-login-password --region us-east-1` 714972241463.dkr.ecr.us-east-1.amazonaws.com
-                 docker push 714972241463.dkr.ecr.us-east-1.amazonaws.com/demo:${params.IMAGE_TAG}
-                """
+                 aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/m4n3o5v2
+                 docker push public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG}
+                 """
             }
         }
     }
@@ -39,7 +39,7 @@ pipeline {
         always {
             sh """#!/bin/bash -xe
               
-              docker rmi 714972241463.dkr.ecr.us-east-1.amazonaws.com/demo:${params.IMAGE_TAG}
+              docker rmi public.ecr.aws/m4n3o5v2/demo:${params.IMAGE_TAG}
               if [[ ! -z `docker images -f 'dangling=true' -q` ]]; then docker rmi `docker images -f 'dangling=true' -q`; fi
             """
             
