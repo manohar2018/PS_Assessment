@@ -1,0 +1,7 @@
+---
+# defaults file for docker-swarm
+docker_version: '17.03.2~ce-0~ubuntu-xenial'
+docker_apt_release_channel: 'stable'
+docker_apt_repository: 'deb https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} {{ docker_apt_release_channel }}'
+docker_group_members: 
+  - 'ubuntu'

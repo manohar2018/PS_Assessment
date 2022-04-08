@@ -1,7 +1,7 @@
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'me',
-  host: 'localhost',
+  user: 'manohar',
+  host: '<<rds instance url>>',
   database: 'api',
   password: 'password',
   port: 5432,
