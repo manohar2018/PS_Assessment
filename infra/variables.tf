@@ -1,7 +1,7 @@
 variable "awsprops" {
     type = map
     default = {
-    region = "us-east-1"
+    region = "us-east-2"
     ami = "ami-0e472ba40eb589f49"
     itype = "t2.micro"
     publicip = true
@@ -23,7 +23,7 @@ variable "cidr" {
 
 variable "azs" {
   type    = list
-  default = ["us-east-1a", "us-east-1b"]
+  default = ["us-east-2a", "us-east-2b"]
 }
 
 variable "web_server_count" {
